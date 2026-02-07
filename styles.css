@@ -1,0 +1,2430 @@
+/* =========================
+   Remodelação.Pt (Layout + Mobile)
+   Fixes:
+   - Removed corrupted repeated rules that broke CSS parsing
+   - Fixed hamburger icon (no inner <span> required)
+   - Fixed project-card background handling (uses --bg)
+   - Kept responsive layout + reduced motion
+   ========================= */
+
+:root {
+  --bg: #ffffff;
+  --surface: #f5f8ff;
+  --text: #0f172a;
+  --muted: #6b7280;
+
+  --brand: #2563eb;
+  /* blue accent */
+  --brand-2: #f59e0b;
+  /* orange accent */
+
+  --nav: rgba(255, 255, 255, .86);
+  --border: rgba(15, 23, 42, .10);
+
+  --shadow: 0 12px 30px rgba(2, 6, 23, .08);
+  --shadow-soft: 0 10px 22px rgba(2, 6, 23, .06);
+
+  --radius-lg: 18px;
+  --radius-md: 14px;
+  --radius-sm: 12px;
+
+  --container: 1120px;
+
+  --ease: cubic-bezier(.2, .8, .2, 1);
+
+  /* Used to size hero under sticky header */
+  --header-h: 68px;
+
+  /* Optional: point to a real file if you have it */
+  --hero-image: url("https://img.freepik.com/fotos-premium/dois-carpinteiros-trabalham-na-obra-construcao-da-estrutura-do-telhado-em-madeira-ideias-para-reforma-e-ampliacao-de-casas-de-madeira_140555-854.jpg");
+
+  --nav-font-size: 13px;
+  --nav-font-weight: 500;
+  /* slim modern */
+
+  --about-image: var(--hero-image);
+  /* change later to any other url(...) */
+
+  /* ================= Global vertical rhythm (more breathing room) ================= */
+  --space-2: 10px;
+  --space-3: 14px;
+  --space-4: 18px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 44px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.container {
+  width: min(100% - 32px, var(--container));
+  margin-inline: auto;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  z-index: 9999;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #111827;
+  color: #fff;
+  transform: translateY(-140%);
+  transition: transform .2s var(--ease);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ================= Header ================= */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  background: var(--nav);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  letter-spacing: .2px;
+}
+
+.brand-mark {
+  display: none;
+  /* remove the blue ball */
+}
+
+.brand-text {
+  color: var(--brand);
+  /* "Remodelação" in blue */
+}
+
+.brand-dot {
+  color: var(--brand-2);
+  /* ".Pt" in orange */
+}
+
+/* ================= Founder Story ================= */
+.founder-story {
+  margin-top: 60px;
+}
+
+.founder-card {
+  background: #fff;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  align-items: center;
+}
+
+.founder-photo {
+  height: 100%;
+  min-height: 300px;
+  background: #e2e8f0;
+  position: relative;
+}
+
+.founder-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.founder-content {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.founder-name {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--brand);
+}
+
+.founder-role {
+  margin: 4px 0 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--brand-2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.founder-bio p {
+  margin: 0 0 16px;
+  color: #334155;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.founder-bio p:last-child {
+  margin: 0;
+}
+
+.founder-sig {
+  margin-top: 24px;
+  font-family: cursive, sans-serif;
+  /* simple fallback */
+  font-size: 24px;
+  color: var(--muted);
+  opacity: 0.6;
+  transform: rotate(-2deg);
+}
+
+@media (max-width: 800px) {
+  .founder-card {
+    grid-template-columns: 1fr;
+  }
+
+  .founder-photo {
+    height: 240px;
+    min-height: 0;
+  }
+
+  .founder-content {
+    padding: 24px;
+  }
+}
+
+/* ================= Nav ================= */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-toggle {
+  display: none;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+}
+
+/* FIX: hamburger works without inner span */
+.hamburger {
+  width: 22px;
+  height: 14px;
+  position: relative;
+  display: block;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #0f172a;
+  border-radius: 2px;
+  transition: transform .25s var(--ease), top .25s var(--ease), box-shadow .25s var(--ease), opacity .2s var(--ease);
+}
+
+.hamburger::before {
+  top: 0;
+  /* middle bar via box-shadow */
+  box-shadow: 0 6px 0 #0f172a;
+}
+
+.hamburger::after {
+  top: 12px;
+}
+
+.nav-panel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 14px;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 10px;
+  border-radius: 12px;
+  color: #475569;
+  /* softer modern slate */
+  font-weight: var(--nav-font-weight);
+  font-size: var(--nav-font-size);
+  letter-spacing: .2px;
+  opacity: 1;
+  /* avoid “faded” look */
+  transition: background .2s var(--ease), color .2s var(--ease);
+}
+
+.nav-links a:hover {
+  background: rgba(37, 99, 235, .08);
+  color: #0f172a;
+  transform: none;
+  /* remove the “jump” */
+}
+
+.lang-switch {
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.lang-btn {
+  border: 0;
+  background: transparent;
+  padding: 7px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  /* slimmer than 900 */
+  letter-spacing: .3px;
+  opacity: 1;
+  color: #0f172a;
+  /* opacity: .75; */
+}
+
+.lang-btn.is-active {
+  background: rgba(37, 99, 235, .12);
+  color: var(--brand);
+  opacity: 1;
+}
+
+/* ================= Hero (match screenshot) ================= */
+.hero {
+  /* clean white like screenshot */
+  background: #fff;
+
+  /* spacing like screenshot */
+  padding: 132px 0 140px;
+  /* was 110/120 */
+}
+
+.hero-grid {
+  display: grid;
+  /* FIX: without this, the card will NOT stay on the right */
+  grid-template-columns: 1.08fr .92fr;
+  gap: 84px;
+  align-items: stretch;
+  /* makes right card match the text column height */
+  padding-block: 0;
+}
+
+/* left text block */
+.hero-copy {
+  max-width: 560px;
+
+  /* ensures the text column can define a clean height */
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-title {
+  font-weight: 900;
+  font-size: clamp(46px, 4.25vw, 68px);
+  line-height: 1.12;
+  /* a bit more open */
+  letter-spacing: -0.3px;
+  /* was -1.1px */
+  margin: 0 0 22px;
+  /* was 18px */
+}
+
+.hero-sub {
+  font-size: 16px;
+  line-height: 1.75;
+  max-width: 44ch;
+  margin: 0 0 38px;
+  /* was 30px */
+  color: #64748b;
+  /* slightly softer like screenshot */
+  letter-spacing: 0.1px;
+  /* slightly more readable */
+}
+
+/* screenshot doesn't show badges */
+.hero-badges {
+  display: none;
+}
+
+/* buttons like screenshot */
+.hero-cta {
+  gap: 20px;
+  /* was 18px */
+}
+
+/* Upgrade buttons (eye-catching blue + orange) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-height: 44px;
+  padding: 12px 26px;
+
+  border-radius: 12px;
+  /* slightly rounder = more modern */
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: .2px;
+
+  transition:
+    transform .22s var(--ease),
+    box-shadow .22s var(--ease),
+    background .22s var(--ease),
+    border-color .22s var(--ease),
+    color .22s var(--ease);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, .20), 0 12px 26px rgba(2, 6, 23, .12);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Primary (blue, filled, glow) */
+.btn-primary {
+  border: 1px solid rgba(37, 99, 235, .22);
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 55%, #0b2a5b 115%);
+  box-shadow:
+    0 18px 34px rgba(37, 99, 235, .26),
+    0 10px 18px rgba(2, 6, 23, .10);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 24px 50px rgba(37, 99, 235, .30),
+    0 14px 26px rgba(2, 6, 23, .12);
+}
+
+/* keep your arrow, but make it feel “built-in” */
+.btn-primary::after {
+  content: "→";
+  margin-left: 6px;
+  font-weight: 1000;
+  opacity: .95;
+}
+
+/* Secondary (orange outline / soft fill) */
+.btn-ghost {
+  border: 1px solid rgba(245, 158, 11, .35);
+  color: #b45309;
+  /* darker orange for readability */
+  background: rgba(245, 158, 11, .08);
+  box-shadow: 0 10px 18px rgba(2, 6, 23, .06);
+}
+
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  color: #fff;
+  border-color: rgba(245, 158, 11, .55);
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 70%);
+  box-shadow:
+    0 20px 40px rgba(245, 158, 11, .26),
+    0 14px 26px rgba(2, 6, 23, .10);
+}
+
+.btn-ghost:focus-visible {
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, .22), 0 12px 26px rgba(2, 6, 23, .12);
+}
+
+/* ================= Hero (match screenshot) ================= */
+.hero {
+  /* clean white like screenshot */
+  background: #fff;
+
+  /* spacing like screenshot */
+  padding: 132px 0 140px;
+  /* was 110/120 */
+}
+
+.hero-grid {
+  display: grid;
+  /* FIX: without this, the card will NOT stay on the right */
+  grid-template-columns: 1.08fr .92fr;
+  gap: 84px;
+  align-items: stretch;
+  /* makes right card match the text column height */
+  padding-block: 0;
+}
+
+/* left text block */
+.hero-copy {
+  max-width: 560px;
+
+  /* ensures the text column can define a clean height */
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-title {
+  font-weight: 900;
+  font-size: clamp(46px, 4.25vw, 68px);
+  line-height: 1.12;
+  /* a bit more open */
+  letter-spacing: -0.3px;
+  /* was -1.1px */
+  margin: 0 0 22px;
+  /* was 18px */
+}
+
+.hero-sub {
+  font-size: 16px;
+  line-height: 1.75;
+  max-width: 44ch;
+  margin: 0 0 38px;
+  /* was 30px */
+  color: #64748b;
+  /* slightly softer like screenshot */
+  letter-spacing: 0.1px;
+  /* slightly more readable */
+}
+
+/* screenshot doesn't show badges */
+.hero-badges {
+  display: none;
+}
+
+/* buttons like screenshot */
+.hero-cta {
+  gap: 20px;
+  /* was 18px */
+}
+
+/* Upgrade buttons (eye-catching blue + orange) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-height: 44px;
+  padding: 12px 26px;
+
+  border-radius: 12px;
+  /* slightly rounder = more modern */
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: .2px;
+
+  transition:
+    transform .22s var(--ease),
+    box-shadow .22s var(--ease),
+    background .22s var(--ease),
+    border-color .22s var(--ease),
+    color .22s var(--ease);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, .20), 0 12px 26px rgba(2, 6, 23, .12);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Primary (blue, filled, glow) */
+.btn-primary {
+  border: 1px solid rgba(37, 99, 235, .22);
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 55%, #0b2a5b 115%);
+  box-shadow:
+    0 18px 34px rgba(37, 99, 235, .26),
+    0 10px 18px rgba(2, 6, 23, .10);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 24px 50px rgba(37, 99, 235, .30),
+    0 14px 26px rgba(2, 6, 23, .12);
+}
+
+/* keep your arrow, but make it feel “built-in” */
+.btn-primary::after {
+  content: "→";
+  margin-left: 6px;
+  font-weight: 1000;
+  opacity: .95;
+}
+
+/* Secondary (orange outline / soft fill) */
+.btn-ghost {
+  border: 1px solid rgba(245, 158, 11, .35);
+  color: #b45309;
+  /* darker orange for readability */
+  background: rgba(245, 158, 11, .08);
+  box-shadow: 0 10px 18px rgba(2, 6, 23, .06);
+}
+
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  color: #fff;
+  border-color: rgba(245, 158, 11, .55);
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 70%);
+  box-shadow:
+    0 20px 40px rgba(245, 158, 11, .26),
+    0 14px 26px rgba(2, 6, 23, .10);
+}
+
+.btn-ghost:focus-visible {
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, .22), 0 12px 26px rgba(2, 6, 23, .12);
+}
+
+/* ================= Hero (match screenshot) ================= */
+.hero {
+  /* clean white like screenshot */
+  background: #fff;
+
+  /* spacing like screenshot */
+  padding: 132px 0 140px;
+  /* was 110/120 */
+}
+
+.hero-grid {
+  display: grid;
+  /* FIX: without this, the card will NOT stay on the right */
+  grid-template-columns: 1.08fr .92fr;
+  gap: 84px;
+  align-items: stretch;
+  /* makes right card match the text column height */
+  padding-block: 0;
+}
+
+/* left text block */
+.hero-copy {
+  max-width: 560px;
+
+  /* ensures the text column can define a clean height */
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-title {
+  font-weight: 900;
+  font-size: clamp(46px, 4.25vw, 68px);
+  line-height: 1.12;
+  /* a bit more open */
+  letter-spacing: -0.3px;
+  /* was -1.1px */
+  margin: 0 0 22px;
+  /* was 18px */
+}
+
+.hero-sub {
+  font-size: 16px;
+  line-height: 1.75;
+  max-width: 44ch;
+  margin: 0 0 38px;
+  /* was 30px */
+  color: #64748b;
+  /* slightly softer like screenshot */
+  letter-spacing: 0.1px;
+  /* slightly more readable */
+}
+
+/* screenshot doesn't show badges */
+.hero-badges {
+  display: none;
+}
+
+/* buttons like screenshot */
+.hero-cta {
+  gap: 20px;
+  /* was 18px */
+}
+
+/* Upgrade buttons (eye-catching blue + orange) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-height: 44px;
+  padding: 12px 26px;
+
+  border-radius: 12px;
+  /* slightly rounder = more modern */
+  font-weight: 900;
+  font-size: 13px;
+  letter-spacing: .2px;
+
+  transition:
+    transform .22s var(--ease),
+    box-shadow .22s var(--ease),
+    background .22s var(--ease),
+    border-color .22s var(--ease),
+    color .22s var(--ease);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, .20), 0 12px 26px rgba(2, 6, 23, .12);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Primary (blue, filled, glow) */
+.btn-primary {
+  border: 1px solid rgba(37, 99, 235, .22);
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 55%, #0b2a5b 115%);
+  box-shadow:
+    0 18px 34px rgba(37, 99, 235, .26),
+    0 10px 18px rgba(2, 6, 23, .10);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 24px 50px rgba(37, 99, 235, .30),
+    0 14px 26px rgba(2, 6, 23, .12);
+}
+
+/* keep your arrow, but make it feel “built-in” */
+.btn-primary::after {
+  content: "→";
+  margin-left: 6px;
+  font-weight: 1000;
+  opacity: .95;
+}
+
+/* Secondary (orange outline / soft fill) */
+.btn-ghost {
+  border: 1px solid rgba(245, 158, 11, .35);
+  color: #b45309;
+  /* darker orange for readability */
+  background: rgba(245, 158, 11, .08);
+  box-shadow: 0 10px 18px rgba(2, 6, 23, .06);
+}
+
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  color: #fff;
+  border-color: rgba(245, 158, 11, .55);
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 70%);
+  box-shadow:
+    0 20px 40px rgba(245, 158, 11, .26),
+    0 14px 26px rgba(2, 6, 23, .10);
+}
+
+.btn-ghost:focus-visible {
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, .22), 0 12px 26px rgba(2, 6, 23, .12);
+}
+
+/* ================= Sections ================= */
+.section {
+  padding: 78px 0;
+}
+
+.section-alt {
+  background: var(--surface);
+}
+
+.section-head {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: clamp(22px, 2.6vw, 30px);
+  font-weight: 1000;
+  letter-spacing: -0.3px;
+  color: var(--brand);
+}
+
+.section-sub {
+  margin: 12px auto 0;
+  color: var(--muted);
+  max-width: 70ch;
+  line-height: 1.75;
+}
+
+.section-underline {
+  width: 54px;
+  height: 3px;
+  margin: 14px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+}
+
+/* ================= Cards ================= */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-top: 26px;
+  /* was 18px */
+}
+
+.card {
+  padding: 18px;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-soft);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+.card-icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(37, 99, 235, .10);
+  color: var(--brand);
+  margin-bottom: 10px;
+}
+
+.card-title {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.card-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ================= Projects ================= */
+/* FIX: use --bg directly; no repeated/invalid rules */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+  /* was 16px */
+}
+
+.project-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  /* was 16/9 */
+  background: var(--bg);
+  /* overridden by inline --bg on each card */
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+
+  /* ================= Projects ================= */
+  background-color: #e5e7eb;
+  /* fallback */
+  background-image: var(--img, none), var(--bg);
+  background-size: cover, cover;
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+}
+
+.project-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(2, 6, 23, 0) 45%, rgba(2, 6, 23, .70));
+}
+
+.project-label {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 1;
+  color: #fff;
+  font-weight: 1000;
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, .45);
+  border: 1px solid rgba(255, 255, 255, .16);
+  backdrop-filter: blur(6px);
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+/* ================= About ================= */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.about-media {
+  position: relative;
+}
+
+.about-visual {
+  width: 100%;
+  min-height: 560px;
+  /* was 420px */
+  border-radius: 22px;
+  /* closer to screenshot */
+
+  background-image:
+    linear-gradient(135deg, rgba(37, 99, 235, .12), rgba(245, 158, 11, .12)),
+    var(--about-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  box-shadow: 0 22px 46px rgba(2, 6, 23, .12);
+  overflow: hidden;
+
+  position: relative;
+  transform: translateZ(0);
+  animation: aboutFloat 9s ease-in-out infinite;
+}
+
+.about-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(80% 70% at 20% 15%, rgba(255, 255, 255, .25), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, rgba(2, 6, 23, 0) 65%, rgba(2, 6, 23, .20) 100%);
+  pointer-events: none;
+}
+
+.about-visual:hover {
+  transform: translateY(-6px) scale(1.01);
+  animation-play-state: paused;
+}
+
+.about-placeholder {
+  position: relative;
+  z-index: 1;
+
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .78);
+  border: 1px solid rgba(15, 23, 42, .10);
+  color: #0f172a;
+  font-weight: 800;
+}
+
+/* About: pill title above heading (matches screenshot) */
+.about-kicker {
+  display: block;
+
+  margin: 0 0 14px;
+  padding: 0;
+
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+
+  font-weight: 1000;
+  font-size: 18px;
+  letter-spacing: -0.2px;
+  color: var(--text);
+}
+
+.about-kicker::after {
+  content: "";
+  display: block;
+  width: 54px;
+  height: 3px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+}
+
+@media (max-width: 980px) {
+  .about-kicker {
+    font-size: 16px;
+  }
+}
+
+/* stats looks nicer with the larger card */
+.about-stat {
+  position: absolute;
+  right: 16px;
+  /* move to right side */
+  bottom: 16px;
+  /* keep inside the image edge */
+  padding: 16px 18px;
+  /* bigger */
+  border-radius: 16px;
+  /* bigger */
+  box-shadow: 0 18px 40px rgba(2, 6, 23, .16);
+  text-align: left;
+  min-width: 170px;
+}
+
+.stat-number {
+  font-weight: 1000;
+  font-size: 24px;
+  /* bigger */
+  line-height: 1;
+}
+
+.stat-text {
+  font-size: 13px;
+  /* bigger */
+  margin-top: 4px;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+/* About badge: bigger + white card */
+.about-stat {
+
+  /* keep your current positioning (right/bottom) */
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, .14);
+
+  padding: 20px 22px;
+  border-radius: 18px;
+  min-width: 240px;
+
+  box-shadow:
+    0 26px 60px rgba(2, 6, 23, .18),
+    0 10px 22px rgba(2, 6, 23, .10);
+
+  overflow: hidden;
+}
+
+/* small accent to make it pop (optional but subtle) */
+.about-stat::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 5px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--brand-2), var(--brand));
+}
+
+.stat-number {
+  font-size: 56px;
+  line-height: 1;
+  letter-spacing: -0.6px;
+  color: var(--brand-2);
+  /* ORANGE */
+}
+
+.stat-text {
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--brand);
+  /* BLUE */
+}
+
+/* Mobile: still bigger, but controlled */
+@media (max-width: 980px) {
+
+  /* ...existing code... */
+  .about-stat {
+    padding: 16px 18px;
+    min-width: 0;
+    border-radius: 16px;
+  }
+
+  .stat-number {
+    font-size: 28px;
+  }
+
+  .stat-text {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-visual {
+    animation: none;
+    transition: none;
+  }
+
+  .about-visual:hover {
+    transform: none;
+  }
+}
+
+/* ================= Contact ================= */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+  /* was 16px */
+}
+
+.contact-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+
+.contact-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+.contact-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: #2563eb;
+  /* default = email blue */
+  color: #fff;
+  /* SVG stroke uses currentColor */
+  box-shadow: 0 14px 26px rgba(2, 6, 23, .10);
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+}
+
+/* Support raster icons inside the contact circle */
+.contact-icon img {
+  display: block;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/* WhatsApp: use the provided logo file exactly (it already includes the green circle) */
+.contact-grid>.contact-card:nth-child(3) .contact-icon {
+  background: transparent;
+  /* prevents double-green */
+}
+
+.contact-grid>.contact-card:nth-child(3) .contact-icon img {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.contact-icon svg {
+  width: 30px;
+  /* was 24px */
+  height: 30px;
+  /* was 24px */
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Enlarge ONLY WhatsApp icon inside its circle */
+.contact-grid>.contact-card:nth-child(3) .contact-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke-width: 2.1;
+  /* was 2.6 */
+}
+
+/* Per-card colors: Email / Phone / WhatsApp */
+.contact-grid>.contact-card:nth-child(1) .contact-icon {
+  background: #2563eb;
+}
+
+.contact-grid>.contact-card:nth-child(2) .contact-icon {
+  background: #0b1220;
+}
+
+/* near-black */
+.contact-grid>.contact-card:nth-child(3) .contact-icon {
+  background: #22c55e;
+}
+
+.contact-title {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 1000;
+}
+
+.contact-link {
+  font-weight: 1000;
+  color: #0b2a5b;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
+
+/* ================= Testimonials (match screenshot) ================= */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 34px;
+  /* more spacing like screenshot */
+  margin-top: 18px;
+  align-items: stretch;
+}
+
+.testimonial {
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, .06);
+  /* very subtle border */
+  border-radius: 12px;
+  padding: 34px 26px;
+  text-align: center;
+
+  box-shadow: 0 10px 22px rgba(2, 6, 23, .08);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+
+.testimonial:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(2, 6, 23, .12);
+}
+
+/* Top quote icon (small + orange + centered) */
+.quote {
+  margin: 0 0 14px;
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 900;
+  color: rgba(245, 158, 11, .55);
+  /* orange like screenshot */
+}
+
+/* Centered italic quote text */
+.testimonial-text {
+  margin: 0 auto 18px;
+  max-width: 36ch;
+  font-style: italic;
+  color: #334155;
+  line-height: 1.9;
+}
+
+/* Stars (orange, no pill) */
+.stars {
+  margin: 6px 0 16px;
+  color: var(--brand-2);
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+/* Name in blue, role muted */
+.testimonial-meta strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--brand);
+  font-weight: 800;
+}
+
+.testimonial-meta .muted {
+  display: block;
+  margin-top: 2px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Reveal animation (clean + consistent) */
+.testimonial.reveal {
+  transform: translateY(22px);
+  transition: opacity .65s var(--ease), transform .65s var(--ease);
+}
+
+.testimonial.reveal.is-visible {
+  transform: translateY(0);
+}
+
+.testimonial.reveal:nth-child(1) {
+  transition-delay: 0ms;
+}
+
+.testimonial.reveal:nth-child(2) {
+  transition-delay: 110ms;
+}
+
+.testimonial.reveal:nth-child(3) {
+  transition-delay: 220ms;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .testimonial {
+    padding: 26px 18px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .testimonial {
+    transition: none;
+  }
+
+  .testimonial.reveal {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* ================= FAQ ================= */
+.faq {
+  max-width: 900px;
+  margin: 16px auto 0;
+}
+
+.faq-item {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  padding: 2px 0;
+  margin-bottom: 10px;
+  overflow: clip;
+}
+
+.faq-q {
+  cursor: pointer;
+  padding: 14px 16px;
+  font-weight: 1000;
+  list-style: none;
+  position: relative;
+}
+
+.faq-q::-webkit-details-marker {
+  display: none;
+}
+
+.faq-q::after {
+  content: "+";
+  position: absolute;
+  right: 16px;
+  top: 10px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(37, 99, 235, .08);
+  color: var(--brand);
+  font-weight: 1000;
+}
+
+details[open] .faq-q::after {
+  content: "–";
+}
+
+.faq-a {
+  padding: 0 16px 14px;
+  color: #334155;
+}
+
+/* ================= Footer ================= */
+.site-footer {
+  background: #081a3a;
+  color: rgba(255, 255, 255, .9);
+  padding: 46px 0 18px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.footer-text {
+  margin: 10px 0 14px;
+  color: rgba(255, 255, 255, .75);
+  max-width: 44ch;
+}
+
+.footer-title {
+  margin: 6px 0 10px;
+  font-size: 14px;
+  font-weight: 1000;
+}
+
+.footer-links,
+.footer-info {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, .78);
+  font-weight: 900;
+}
+
+.footer-links a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footer-info li {
+  color: rgba(255, 255, 255, .78);
+}
+
+.footer-info a {
+  color: rgba(255, 255, 255, .85);
+  font-weight: 1000;
+}
+
+.social {
+  display: flex;
+  gap: 8px;
+}
+
+.social-btn {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  color: rgba(255, 255, 255, .85);
+  font-weight: 1000;
+}
+
+.social-btn:hover {
+  background: rgba(255, 255, 255, .08);
+  color: #fff;
+}
+
+.footer-bottom {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  color: rgba(255, 255, 255, .70);
+}
+
+/* Footer headings should be white (override global .footer-title color rule) */
+.site-footer .footer-title {
+  color: rgba(255, 255, 255, .95) !important;
+}
+
+/* ================= Reveal (optional) ================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 980px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-media {
+    justify-content: flex-start;
+  }
+
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-panel {
+    position: fixed;
+    top: 62px;
+    right: 16px;
+    left: 16px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 14px;
+    display: grid;
+    gap: 14px;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s var(--ease), transform .2s var(--ease);
+  }
+
+  body.nav-open .nav-panel {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  /* Hamburger -> X */
+  body.nav-open .hamburger::before {
+    top: 6px;
+    transform: rotate(45deg);
+    box-shadow: none;
+  }
+
+  body.nav-open .hamburger::after {
+    top: 6px;
+    transform: rotate(-45deg);
+  }
+}
+
+@media (max-width: 680px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .btn,
+  .card,
+  .project-card,
+  .contact-card,
+  .media-frame {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Hero word accents (Casa = blue, Sonho = orange) */
+.accent-blue {
+  color: var(--brand);
+}
+
+.accent-orange {
+  color: var(--brand-2);
+}
+
+/* Titles: match hero text color site-wide */
+.section-title,
+.card-title,
+.contact-title,
+.footer-title {
+  color: var(--text);
+}
+
+/* (optional) if you also want the brand text to be dark, uncomment:
+.brand-text, .brand-dot{ color: var(--text); }
+*/
+
+/* ================= HERO: match image height to title/text (ALL langs, desktop) ================= */
+/* Replace the current block with this (prevents the image from collapsing/disappearing). */
+@media (min-width: 981px) {
+  .hero-grid {
+    align-items: stretch;
+  }
+
+  .hero-media {
+    min-height: 0;
+    align-items: stretch;
+  }
+
+  .media-stack {
+    flex: 1;
+    /* allow stretching without relying on % heights */
+    height: auto;
+  }
+
+  .media-frame {
+    /* IMPORTANT: keep a real height so the background image remains visible */
+    min-height: 420px;
+    /* fallback: never collapses */
+    height: auto;
+    /* avoid % height collapse */
+    aspect-ratio: auto !important;
+    /* allow it to grow with the text column */
+  }
+}
+
+/* ================= HERO media card (REQUIRED for the image to show) ================= */
+/* Put this at the VERY END so it overrides earlier duplicates cleanly */
+.hero-media {
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+}
+
+.media-stack {
+  width: min(860px, 100%);
+}
+
+.media-frame {
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+
+  /* this is the actual "image" */
+  background-color: #e5e7eb;
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, .08) 0%, rgba(255, 255, 255, 0) 40%),
+    var(--hero-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.media-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  /* readability overlay */
+  background:
+    radial-gradient(90% 70% at 20% 15%, rgba(255, 255, 255, .18), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(180deg, rgba(2, 6, 23, 0) 62%, rgba(2, 6, 23, .55) 100%);
+}
+
+/* Desktop: allow the image card to grow with the text column, but never collapse */
+@media (min-width: 981px) {
+  .hero-grid {
+    align-items: stretch;
+  }
+
+  .media-frame {
+    min-height: 420px;
+    /* keeps it visible */
+    height: auto;
+    aspect-ratio: auto;
+    /* allow text-driven height */
+  }
+}
+
+/* Mobile: keep stable image proportions */
+@media (max-width: 980px) {
+  .hero-media {
+    justify-content: flex-start;
+  }
+
+  .media-frame {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ================= HERO: align image with title (same column height) — PT/EN/ES/FR ================= */
+/* Replace the current last "HERO: align image top..." block with this one (keep it at the VERY END). */
+@media (min-width: 981px) {
+
+  /* Make both columns share the same row height (driven by the text column) */
+  .hero-grid {
+    align-items: stretch !important;
+  }
+
+  /* Let the media area stretch to the full grid row height */
+  .hero-media {
+    align-items: stretch !important;
+  }
+
+  /* Make the stack a flex container so the frame can fill vertically */
+  .media-stack {
+    display: flex !important;
+    align-self: stretch !important;
+  }
+
+  /* Fill the available height (no % height needed => no collapse) */
+  .media-frame {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    /* allow matching shorter/taller text heights */
+    aspect-ratio: auto !important;
+    /* height is driven by the grid row */
+  }
+}
+
+/* ================= HERO chip: bottom overlay + green dot (all languages) ================= */
+/* Put this at the VERY END to override duplicates */
+.hero .media-frame {
+  position: relative;
+}
+
+/* defensive */
+
+.hero .media-chip {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  z-index: 2;
+
+  display: inline-flex;
+  align-items: center;
+
+  /* keep it clean (no background pill) */
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+
+  color: rgba(255, 255, 255, .96);
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: .2px;
+  text-shadow: 0 10px 22px rgba(2, 6, 23, .45);
+}
+
+.hero .media-chip::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  margin-right: 10px;
+
+  background: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, .20);
+}
+
+/* Hero chip: bouncing green dot */
+@keyframes heroDotBounce {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  45% {
+    transform: translateY(-3px) scale(1.08);
+  }
+
+  70% {
+    transform: translateY(0) scale(.98);
+  }
+}
+
+.hero .media-chip::before {
+  /* ...existing code... */
+  animation: heroDotBounce 1.15s var(--ease) infinite;
+  transform-origin: center;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero .media-chip::before {
+    animation: none !important;
+  }
+}
+
+/* Footer: remove bold from circled parts (links + information text) */
+.site-footer .footer-links a {
+  font-weight: 500 !important;
+}
+
+.site-footer .footer-info li {
+  font-weight: 500;
+}
+
+.site-footer .footer-info a {
+  font-weight: 500 !important;
+}
+
+/* Language switch placement: desktop uses panel, mobile uses header (next to hamburger) */
+.lang-switch--mobile {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .lang-switch--mobile {
+    display: flex;
+  }
+
+  .lang-switch--panel {
+    display: none;
+  }
+}
+
+/* ================= HERO image: premium hover animation ================= */
+.hero-media {
+  perspective: 900px;
+}
+
+.media-frame {
+  transform: translateZ(0);
+  will-change: transform, box-shadow, filter;
+  transition:
+    transform .65s var(--ease),
+    box-shadow .65s var(--ease),
+    filter .65s var(--ease);
+}
+
+/* shine layer */
+.media-frame::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+  background: linear-gradient(120deg,
+      rgba(255, 255, 255, 0) 35%,
+      rgba(255, 255, 255, .22) 50%,
+      rgba(255, 255, 255, 0) 65%);
+  transform: translateX(-55%) rotate(10deg);
+  opacity: 0;
+  transition: transform .9s var(--ease), opacity .35s var(--ease);
+}
+
+.hero-media:hover .media-frame {
+  transform: translateY(-10px) rotateX(6deg) rotateY(-8deg) scale(1.02);
+  box-shadow: 0 28px 60px rgba(2, 6, 23, .22);
+  filter: saturate(1.08) contrast(1.05);
+}
+
+.hero-media:hover .media-frame::before {
+  opacity: 1;
+  transform: translateX(55%) rotate(10deg);
+}
+
+/* make image slightly clearer on hover */
+.hero-media:hover .media-overlay {
+  opacity: .82;
+  transition: opacity .65s var(--ease);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-media {
+    perspective: none;
+  }
+
+  .media-frame,
+  .media-frame::before,
+  .media-overlay {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .hero-media:hover .media-frame {
+    transform: none !important;
+  }
+
+  .hero-media:hover .media-frame::before {
+    opacity: 0 !important;
+  }
+}
+
+/* About: "Sobre Nós" as a title (no pill/button look) */
+.about-kicker {
+  display: block;
+
+  margin: 0 0 14px;
+  padding: 0;
+
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+
+  font-weight: 1000;
+  font-size: 18px;
+  letter-spacing: -0.2px;
+  color: var(--text);
+}
+
+.about-kicker::after {
+  content: "";
+  display: block;
+  width: 54px;
+  height: 3px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand), var(--brand-2));
+}
+
+@media (max-width: 980px) {
+  .about-kicker {
+    font-size: 16px;
+  }
+}
+
+/* Checklist icon animations */
+.check-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+
+  box-shadow: none;
+  transform: none;
+}
+
+/* Default (fallback) */
+.check-icon {
+  background: rgba(148, 163, 184, .22);
+  border: 1px solid rgba(148, 163, 184, .35);
+  color: #334155;
+}
+
+/* Per-line colors like screenshot */
+.checklist li:nth-child(1) .check-icon {
+  background: rgba(37, 99, 235, .12);
+  border-color: rgba(37, 99, 235, .22);
+  color: var(--brand);
+}
+
+.checklist li:nth-child(2) .check-icon {
+  background: rgba(245, 158, 11, .14);
+  border-color: rgba(245, 158, 11, .24);
+  color: var(--brand-2);
+}
+
+.checklist li:nth-child(3) .check-icon {
+  background: rgba(34, 197, 94, .14);
+  border-color: rgba(34, 197, 94, .24);
+  color: #16a34a;
+}
+
+.checklist li:nth-child(4) .check-icon {
+  background: rgba(148, 163, 184, .22);
+  border-color: rgba(148, 163, 184, .35);
+  color: #334155;
+}
+
+/* Make icons static (exact like screenshot) */
+.check-icon svg {
+  animation: none !important;
+  transform: none !important;
+}
+
+.checklist li:hover .check-icon,
+.checklist li:hover .check-icon svg {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* About: make "Sobre Nós" same size as the main title, and remove underline */
+.about-kicker {
+  font-size: clamp(22px, 2.6vw, 30px);
+  /* same as .section-title */
+  font-weight: 1000;
+  /* same weight */
+  letter-spacing: -0.3px;
+  /* same spacing */
+  margin: 0 0 12px;
+}
+
+.about-kicker::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* About checklist: replace black bullets with the icons */
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+  display: grid;
+  gap: 12px;
+}
+
+.checklist li {
+  list-style: none;
+  /* defensive */
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+/* If any old bullet pseudo exists anywhere, kill it */
+.checklist li::before {
+  content: none !important;
+}
+
+/* About: "Sobre Nós" as a pill/button (visual only) */
+.about-copy .about-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 22px;
+  /* bigger */
+  min-height: 46px;
+  /* taller pill */
+  font-size: 16px;
+  /* bigger text */
+  line-height: 1;
+  /* keeps pill height clean */
+
+  border-radius: 999px;
+
+  background: rgba(15, 23, 42, .06);
+  border: 1px solid rgba(15, 23, 42, .10);
+
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: var(--text);
+
+  margin: 0 0 14px;
+}
+
+/* keep underline removed */
+.about-copy .about-kicker::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ================= Features ================= */
+
+/* 1. Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s var(--ease);
+}
+
+.lightbox.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.lightbox-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(2, 6, 23, .85);
+  backdrop-filter: blur(4px);
+}
+
+.lightbox-content {
+  position: relative;
+  z-index: 10;
+  max-width: 90%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-content img {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, .3);
+  object-fit: contain;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -40px;
+  right: -0px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 32px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.lightbox-caption {
+  margin-top: 12px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* 2. Scroll to Top */
+.scroll-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  /* default, will be offset if whatsapp is present */
+  z-index: 900;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--brand);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: all .3s var(--ease);
+}
+
+.scroll-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.scroll-to-top:hover {
+  transform: translateY(-4px);
+  background: var(--brand);
+  color: #fff;
+}
+
+/* 3. Floating WhatsApp */
+.whatsapp-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #25D366;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .3s var(--ease);
+  animation: pulse 2s infinite;
+}
+
+.whatsapp-float img {
+  width: 36px;
+  height: 36px;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+/* Move scroll-to-top to the left of whatsapp if both exist */
+.whatsapp-float~.scroll-to-top {
+  right: 96px;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+/* 4. Cookie Banner */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, .05);
+  padding: 24px;
+  transform: translateY(100%);
+  transition: transform .4s var(--ease);
+  display: flex;
+  justify-content: center;
+}
+
+.cookie-banner.is-visible {
+  transform: translateY(0);
+}
+
+.cookie-content {
+  max-width: var(--container);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.cookie-content p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+  flex: 1;
+}
+
+.btn-sm {
+  min-height: 36px;
+  padding: 8px 18px;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .whatsapp-float {
+    width: 50px;
+    height: 50px;
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .whatsapp-float img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .scroll-to-top {
+    width: 40px;
+    height: 40px;
+    bottom: 16px;
+  }
+
+  .whatsapp-float~.scroll-to-top {
+    right: 76px;
+  }
+
+  .cookie-content {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 12px;
+  }
+}
+
+/* ================= Founder Story (Added) ================= */
+.founder-story {
+  margin: 80px auto;
+  /* Spacious vertical rhythm */
+}
+
+.founder-card {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, .08);
+  /* Soft but elevated shadow */
+  display: flex;
+  flex-direction: column;
+  /* Mobile first */
+}
+
+.founder-photo {
+  width: 100%;
+  height: 320px;
+  /* Taller on mobile to show more of the person */
+  background: #f1f5f9;
+  position: relative;
+}
+
+.founder-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  /* CRITICAL: Focus on face, don't crop top */
+}
+
+.founder-content {
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.founder-name {
+  font-size: 24px;
+  color: #1e293b;
+  margin-bottom: 4px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.founder-role {
+  color: #2563eb;
+  /* Brand primary */
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.founder-bio p {
+  color: #475569;
+  margin-bottom: 16px;
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+.founder-bio p:last-child {
+  margin-bottom: 0px;
+}
+
+.founder-sig {
+  margin-top: 24px;
+  font-family: serif;
+  /* Fallback for signature style */
+  font-style: italic;
+  font-size: 28px;
+  color: #94a3b8;
+}
+
+/* Desktop Layout */
+@media (min-width: 900px) {
+  .founder-card {
+    flex-direction: row;
+    min-height: 400px;
+    /* Ensure substantial height */
+  }
+
+  .founder-photo {
+    width: 40%;
+    height: auto;
+    /* Fill height flex-wise */
+    flex-shrink: 0;
+  }
+
+  .founder-content {
+    padding: 60px;
+    /* Luxurious padding */
+  }
+}
+
+/* Mobile specific tweaks if needed */
+@media (max-width: 600px) {
+  .founder-photo {
+    /* Ensure it's not too short, 320px is good. 
+       If still cut off, the user might want "contain" 
+       but "cover" + "top center" is usually best for portraits. */
+    min-height: 320px;
+  }
+}
