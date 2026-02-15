@@ -6,10 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0b2a5b" />
 
-  <!-- Primary SEO (updated dynamically by app.js per language) -->
-  <title>Remodelação.Pt — Remodelações, Obras e Pintura em Lisboa e Santarém</title>
+  <!-- Primary SEO (updated  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Especialistas em Remodelações e Pintura — Lisboa e Santarém</title>
   <meta name="description"
-    content="Remodelações completas, pintura, manutenção e instalação. Orçamentos claros e prazos cumpridos. Serviços em Lisboa e região de Santarém." />
+    content="Mais de 30 anos de experiência em renovação de interiores, fachadas e telhados. Rigor, qualidade e prazos cumpridos. Contacte-nos para um orçamento." />
+  <meta name="keywords" content="Remodelação, Construção, Pintura, Lisboa, Santarém, Obras, Renovação" />
   <link rel="canonical" href="https://www.remodelacao.pt/" />
 
   <!-- Open Graph -->
@@ -37,18 +38,33 @@
       </a>
 
       <nav class="site-nav" aria-label="Navegação principal">
+        <!-- NEW: mobile-only language switcher (shows next to hamburger) -->
+        <!-- NEW: mobile-only language dropdown -->
+        <div class="lang-dropdown-mobile">
+          <button class="lang-toggle-mobile" type="button" aria-expanded="false" aria-label="Alterar idioma">
+            <!-- Globe icon -->
+            <svg class="lang-globe" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+              </path>
+            </svg>
+            <span class="lang-current-label">PT</span>
+          </button>
+
+          <div class="lang-menu-mobile">
+            <button class="lang-option" type="button" data-lang="pt">Português</button>
+            <button class="lang-option" type="button" data-lang="en">English</button>
+            <button class="lang-option" type="button" data-lang="es">Español</button>
+            <button class="lang-option" type="button" data-lang="fr">Français</button>
+          </div>
+        </div>
+
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navPanel">
           <span class="sr-only" data-i18n="openMenu">Abrir menu</span>
           <span class="hamburger" aria-hidden="true"></span>
         </button>
-
-        <!-- NEW: mobile-only language switcher (shows next to hamburger) -->
-        <div class="lang-switch lang-switch--mobile" role="group" aria-label="Idioma">
-          <button class="lang-btn is-active" type="button" data-lang="pt" aria-current="true">PT</button>
-          <button class="lang-btn" type="button" data-lang="en">EN</button>
-          <button class="lang-btn" type="button" data-lang="fr">FR</button>
-          <button class="lang-btn" type="button" data-lang="es">ES</button>
-        </div>
 
         <div class="nav-panel" id="navPanel">
           <ul class="nav-links">
@@ -356,7 +372,7 @@
         </header>
 
         <div class="contact-grid reveal">
-          <article class="contact-card">
+          <a class="contact-card" href="mailto:balizaempreendimentome@gmail.com">
             <div class="contact-icon" aria-hidden="true">
               <!-- Email icon (envelope, like screenshot) -->
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -365,10 +381,10 @@
               </svg>
             </div>
             <h3 class="contact-title" data-i18n="contactEmailTitle">Email</h3>
-            <a class="contact-link" href="mailto:balizaempreendimentome@gmail.com">balizaempreendimentome@gmail.com</a>
-          </article>
+            <span class="contact-link">balizaempreendimentome@gmail.com</span>
+          </a>
 
-          <article class="contact-card">
+          <a class="contact-card" href="tel:+351932135671">
             <div class="contact-icon" aria-hidden="true">
               <!-- Phone icon (simple handset, like screenshot) -->
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -377,19 +393,20 @@
               </svg>
             </div>
             <h3 class="contact-title" data-i18n="contactPhoneTitle">Telefone</h3>
-            <a class="contact-link" href="tel:+351932135671">+351 932 135 671</a>
-          </article>
+            <span class="contact-link">+351 932 135 671</span>
+          </a>
 
-          <article class="contact-card">
+          <a class="contact-card"
+            href="https://wa.me/351932135671?text=Ol%C3%A1,%20vi%20o%20vosso%20site%20e%20gostaria%20de%20obter%20mais%20informa%C3%A7%C3%B5es."
+            target="_blank" rel="noopener">
             <div class="contact-icon" aria-hidden="true">
               <!-- WhatsApp logo image (file is in the same folder). Rename if your filename differs. -->
               <img src="./whatsapp.png" alt="" />
             </div>
 
             <h3 class="contact-title" data-i18n="contactWhatsappTitle">WhatsApp</h3>
-            <a class="contact-link" href="https://wa.me/351932135671" target="_blank" rel="noopener"
-              data-i18n="contactWhatsappCta">Enviar Mensagem</a>
-          </article>
+            <span class="contact-link" data-i18n="contactWhatsappCta">Enviar Mensagem</span>
+          </a>
         </div>
       </div>
     </section>
@@ -631,19 +648,13 @@
   </button>
 
   <!-- 3. Floating WhatsApp -->
-  <a href="https://wa.me/351932135671" class="whatsapp-float active" target="_blank" rel="noopener"
-    aria-label="Contactar por WhatsApp">
+  <a href="https://wa.me/351932135671?text=Ol%C3%A1,%20vi%20o%20vosso%20site%20e%20gostaria%20de%20obter%20mais%20informa%C3%A7%C3%B5es."
+    class="whatsapp-float active" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
     <img src="./whatsapp.png" alt="WhatsApp" />
   </a>
 
   <!-- 4. Cookie Consent -->
-  <div id="cookieBanner" class="cookie-banner" role="dialog" aria-live="polite">
-    <div class="cookie-content">
-      <p data-i18n="cookieText">Utilizamos cookies para melhorar a sua experiência. Ao continuar a navegar, aceita a
-        nossa política de cookies.</p>
-      <button id="acceptCookies" class="btn btn-primary btn-sm" data-i18n="cookieAccept">Aceitar</button>
-    </div>
-  </div>
+
 
   <script type="application/ld+json" id="jsonld-base">
   {

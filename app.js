@@ -14,9 +14,9 @@ const LANGS = ["pt", "en", "es", "fr"];
 const SEO_META = {
   pt: {
     langTag: "pt-PT",
-    title: "Remodelações Lisboa e Santarém — Pintura, Obras e Telhados | Orçamento Grátis",
+    title: "Especialistas em Remodelações e Pintura — Lisboa e Santarém",
     description:
-      "Renove a sua casa com confiança. Especialistas em pintura interior/exterior, telhados e remodelação chave-na-mão. Atuamos em Lisboa e Santarém. Contacte-nos!",
+      "Mais de 30 anos de experiência em renovação de interiores, fachadas e telhados. Rigor, qualidade e prazos cumpridos. Contacte-nos para um orçamento.",
     ogTitle: "Remodelações e Obras em Lisboa e Santarém — Remodelação.Pt",
     ogDescription: "Transformamos a sua casa com rigor e qualidade. Peça o seu orçamento gratuito!"
   },
@@ -388,6 +388,16 @@ function applyI18n(lang) {
 
     // Keep it simple: replace textContent (safe, no HTML injection)
     el.textContent = value;
+    // Mobile: Update current label
+    const mobileLabel = $(".lang-current-label");
+    if (mobileLabel) mobileLabel.textContent = lang.toUpperCase();
+
+    // Highlighting for mobile dropdown options
+    $$(".lang-option").forEach(opt => {
+      const is = opt.dataset.lang === lang;
+      opt.classList.toggle("is-active", is);
+    });
+
   });
 
   // Update language buttons state
@@ -504,10 +514,11 @@ function setupFaqBehavior() {
 }
 
 function setupLanguage() {
+  /* Always default to PT unless URL or previous choice exists. */
   const initial =
     getLangFromUrl() ||
     (localStorage.getItem("lang") || "").toLowerCase() ||
-    (navigator.language || "").toLowerCase().slice(0, 2);
+    "pt";
 
   const lang = LANGS.includes(initial) ? initial : "pt";
 
@@ -526,6 +537,39 @@ function setupLanguage() {
     b.addEventListener("click", () => setLang(b.dataset.lang));
   });
 
+  // Mobile Dropdown Logic
+  const mobileToggle = $(".lang-toggle-mobile");
+  const mobileMenu = $(".lang-menu-mobile");
+  const currentLabel = $(".lang-current-label");
+
+  if (mobileToggle && mobileMenu) {
+    // Toggle menu
+    mobileToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = mobileMenu.classList.contains("is-open");
+      mobileMenu.classList.toggle("is-open", !isOpen);
+      mobileToggle.setAttribute("aria-expanded", String(!isOpen));
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!mobileToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.remove("is-open");
+        mobileToggle.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    // Handle option click
+    $$(".lang-option", mobileMenu).forEach(opt => {
+      opt.addEventListener("click", () => {
+        const selectedLang = opt.dataset.lang;
+        setLang(selectedLang);
+        mobileMenu.classList.remove("is-open");
+        mobileToggle.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
   setLang(lang);
 }
 
@@ -542,7 +586,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupLanguage();
   setupLightbox();
   setupScrollToTop();
-  setupCookieConsent();
+
 });
 
 // ================= Features =================
@@ -614,25 +658,4 @@ function setupScrollToTop() {
   });
 }
 
-function setupCookieConsent() {
-  const banner = $("#cookieBanner");
-  const btn = $("#acceptCookies");
-  if (!banner || !btn) return;
 
-  const CONSENT_KEY = "cookie_consent_v1";
-
-  // Check if already accepted
-  if (localStorage.getItem(CONSENT_KEY) === "true") {
-    return;
-  }
-
-  // Show after delay
-  setTimeout(() => {
-    banner.classList.add("is-visible");
-  }, 1000);
-
-  btn.addEventListener("click", () => {
-    localStorage.setItem(CONSENT_KEY, "true");
-    banner.classList.remove("is-visible");
-  });
-}

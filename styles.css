@@ -60,6 +60,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
 }
 
 body {
@@ -68,6 +70,9 @@ body {
   color: var(--text);
   background: var(--bg);
   line-height: 1.5;
+  overflow-x: hidden;
+  /* Double safety */
+  width: 100%;
 }
 
 a {
@@ -1147,6 +1152,12 @@ img {
   text-align: center;
   box-shadow: var(--shadow-soft);
   transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+  display: block;
+  /* Ensure it behaves like a block */
+  text-decoration: none;
+  /* Remove underline from card */
+  color: inherit;
+  /* Inherit text color */
 }
 
 .contact-card:hover {
@@ -1230,9 +1241,12 @@ img {
 .contact-link {
   font-weight: 1000;
   color: #0b2a5b;
+  display: inline-block;
+  /* Ensure span respects block properties if needed */
 }
 
-.contact-link:hover {
+/* Add underline on hover for the link text itself */
+.contact-card:hover .contact-link {
   text-decoration: underline;
 }
 
@@ -1851,13 +1865,123 @@ details[open] .faq-q::after {
 }
 
 /* Language switch placement: desktop uses panel, mobile uses header (next to hamburger) */
-.lang-switch--mobile {
+/* Language switch placement: desktop uses panel, mobile uses header (next to hamburger) */
+.lang-dropdown-mobile {
+  position: relative;
   display: none;
+}
+
+.lang-toggle-mobile {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 999px;
+  /* Pill shape */
+  font-weight: 800;
+  /* Bold */
+  font-size: 14px;
+  color: #0f172a;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition: background .2s var(--ease), box-shadow .2s var(--ease);
+}
+
+.lang-toggle-mobile:hover,
+.lang-toggle-mobile[aria-expanded="true"] {
+  background: #f8fafc;
+  box-shadow: var(--shadow);
+}
+
+.lang-globe {
+  color: #1e293b;
+  /* Dark icon */
+}
+
+.lang-arrow {
+  transition: transform .2s var(--ease);
+}
+
+.lang-toggle-mobile[aria-expanded="true"] .lang-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu styling */
+.lang-menu-mobile {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: -8px;
+  /* Align right */
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, .06);
+  border-radius: 20px;
+  /* Rounded card */
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.08),
+    0 10px 20px rgba(0, 0, 0, 0.04);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+  /* Wider for full names */
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity .25s var(--ease), transform .25s var(--ease);
+  z-index: 1001;
+}
+
+.lang-menu-mobile.is-open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Option styling */
+.lang-option {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  /* Bold text */
+  font-size: 15px;
+  color: #334155;
+  text-align: left;
+  /* Center or Left? Screenshot looks aligned. Left is safer. */
+  transition: background .15s var(--ease), color .15s var(--ease);
+}
+
+.lang-option:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.lang-option.is-active {
+  background: transparent;
+  color: var(--brand);
+  /* Highlight active language text */
+}
+
+.lang-flag {
+  font-size: 18px;
+  line-height: 1;
 }
 
 @media (max-width: 980px) {
   .lang-switch--mobile {
-    display: flex;
+    display: none;
+    /* Hide old if present */
+  }
+
+  .lang-dropdown-mobile {
+    display: block;
   }
 
   .lang-switch--panel {
@@ -2245,49 +2369,7 @@ details[open] .faq-q::after {
   }
 }
 
-/* 4. Cookie Banner */
-.cookie-banner {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 2000;
-  background: #fff;
-  border-top: 1px solid var(--border);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, .05);
-  padding: 24px;
-  transform: translateY(100%);
-  transition: transform .4s var(--ease);
-  display: flex;
-  justify-content: center;
-}
 
-.cookie-banner.is-visible {
-  transform: translateY(0);
-}
-
-.cookie-content {
-  max-width: var(--container);
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-.cookie-content p {
-  margin: 0;
-  font-size: 14px;
-  color: var(--muted);
-  flex: 1;
-}
-
-.btn-sm {
-  min-height: 36px;
-  padding: 8px 18px;
-  font-size: 13px;
-}
 
 @media (max-width: 600px) {
   .whatsapp-float {
@@ -2312,12 +2394,7 @@ details[open] .faq-q::after {
     right: 76px;
   }
 
-  .cookie-content {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-    gap: 12px;
-  }
+
 }
 
 /* ================= Founder Story (Added) ================= */
