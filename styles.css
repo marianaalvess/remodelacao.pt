@@ -161,94 +161,7 @@ img {
   /* ".Pt" in orange */
 }
 
-/* ================= Founder Story ================= */
-.founder-story {
-  margin-top: 60px;
-}
 
-.founder-card {
-  background: #fff;
-  border-radius: 24px;
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-soft);
-  overflow: hidden;
-
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  align-items: center;
-}
-
-.founder-photo {
-  height: 100%;
-  min-height: 300px;
-  background: #e2e8f0;
-  position: relative;
-}
-
-.founder-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.founder-content {
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.founder-name {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 900;
-  color: var(--brand);
-}
-
-.founder-role {
-  margin: 4px 0 18px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--brand-2);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.founder-bio p {
-  margin: 0 0 16px;
-  color: #334155;
-  line-height: 1.8;
-  font-size: 15px;
-}
-
-.founder-bio p:last-child {
-  margin: 0;
-}
-
-.founder-sig {
-  margin-top: 24px;
-  font-family: cursive, sans-serif;
-  /* simple fallback */
-  font-size: 24px;
-  color: var(--muted);
-  opacity: 0.6;
-  transform: rotate(-2deg);
-}
-
-@media (max-width: 800px) {
-  .founder-card {
-    grid-template-columns: 1fr;
-  }
-
-  .founder-photo {
-    height: 240px;
-    min-height: 0;
-  }
-
-  .founder-content {
-    padding: 24px;
-  }
-}
 
 /* ================= Nav ================= */
 .site-nav {
@@ -978,6 +891,12 @@ img {
   pointer-events: none;
 }
 
+@media (max-width: 600px) {
+  .about-visual {
+    min-height: 320px;
+  }
+}
+
 .about-visual:hover {
   transform: translateY(-6px) scale(1.01);
   animation-play-state: paused;
@@ -1661,37 +1580,39 @@ details[open] .faq-q::after {
 /* Small Mobile (under 480px) */
 @media (max-width: 480px) {
   .hero-title {
-    font-size: 36px; /* Avoid overly large text */
+    font-size: 36px;
+    /* Avoid overly large text */
   }
-  
+
   .hero-sub {
     font-size: 15px;
   }
-  
+
   .section-title {
     font-size: 26px;
   }
 
-  .cards-grid, 
-  .projects-grid, 
-  .contact-grid, 
+  .cards-grid,
+  .projects-grid,
+  .contact-grid,
   .testimonials-grid {
-    grid-template-columns: 1fr; /* Force 1 column */
+    grid-template-columns: 1fr;
+    /* Force 1 column */
   }
 
   /* Founder story mobile adjustments */
   .founder-card {
     border-radius: 16px;
   }
-  
+
   .founder-photo {
     height: 200px;
   }
-  
+
   .founder-content {
     padding: 20px;
   }
-  
+
   .founder-name {
     font-size: 20px;
   }
@@ -2436,6 +2357,7 @@ details[open] .faq-q::after {
     right: 76px;
   }
 }
+
 .founder-story {
   margin: 80px auto;
   /* Spacious vertical rhythm */
