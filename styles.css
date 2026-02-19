@@ -1603,6 +1603,7 @@ details[open] .faq-q::after {
     grid-template-columns: 1fr;
   }
 
+
   .contact-grid {
     grid-template-columns: 1fr;
   }
@@ -1654,6 +1655,47 @@ details[open] .faq-q::after {
 /* (optional) if you also want the brand text to be dark, uncomment:
 .brand-text, .brand-dot{ color: var(--text); }
 */
+
+/* ================= HIERARCHY FIXES FOR MOBILE ================= */
+
+/* Small Mobile (under 480px) */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 36px; /* Avoid overly large text */
+  }
+  
+  .hero-sub {
+    font-size: 15px;
+  }
+  
+  .section-title {
+    font-size: 26px;
+  }
+
+  .cards-grid, 
+  .projects-grid, 
+  .contact-grid, 
+  .testimonials-grid {
+    grid-template-columns: 1fr; /* Force 1 column */
+  }
+
+  /* Founder story mobile adjustments */
+  .founder-card {
+    border-radius: 16px;
+  }
+  
+  .founder-photo {
+    height: 200px;
+  }
+  
+  .founder-content {
+    padding: 20px;
+  }
+  
+  .founder-name {
+    font-size: 20px;
+  }
+}
 
 /* ================= HERO: match image height to title/text (ALL langs, desktop) ================= */
 /* Replace the current block with this (prevents the image from collapsing/disappearing). */
@@ -2393,11 +2435,7 @@ details[open] .faq-q::after {
   .whatsapp-float~.scroll-to-top {
     right: 76px;
   }
-
-
 }
-
-/* ================= Founder Story (Added) ================= */
 .founder-story {
   margin: 80px auto;
   /* Spacious vertical rhythm */
